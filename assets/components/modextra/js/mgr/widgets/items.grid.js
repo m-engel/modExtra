@@ -126,40 +126,26 @@ modExtra.window.CreateItem = function(config) {
         }]
     });
     modExtra.window.CreateItem.superclass.constructor.call(this,config);
+
+    // Added from that line...
+    this.on('activate',function(w,e) {
+        MODx.loadRTE(this.ident+'-description');
+    },this);
+    this.on('deactivate',function(w,e) {
+        tinyMCE.execCommand('mceRemoveControl',true,this.ident+'-description');
+    },this);
+    // To that line
 };
 Ext.extend(modExtra.window.CreateItem,MODx.Window);
 Ext.reg('modextra-window-item-create',modExtra.window.CreateItem);
 
-
 modExtra.window.UpdateItem = function(config) {
     config = config || {};
-    this.ident = config.ident || 'modextra-meuitem'+Ext.id();
     Ext.applyIf(config,{
         title: _('modextra.item_update')
-        ,id: this.ident
-        ,height: 150
-        ,width: 475
-        ,url: modExtra.config.connector_url
         ,action: 'mgr/item/update'
-        ,fields: [{
-            xtype: 'hidden'
-            ,name: 'id'
-            ,id: this.ident+'-id'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('name')
-            ,name: 'name'
-            ,id: this.ident+'-name'
-            ,width: 300
-        },{
-            xtype: 'textarea'
-            ,fieldLabel: _('description')
-            ,name: 'description'
-            ,id: this.ident+'-description'
-            ,width: 300
-        }]
     });
     modExtra.window.UpdateItem.superclass.constructor.call(this,config);
 };
-Ext.extend(modExtra.window.UpdateItem,MODx.Window);
+Ext.extend(modExtra.window.UpdateItem,modExtra.window.CreateItem);
 Ext.reg('modextra-window-item-update',modExtra.window.UpdateItem);

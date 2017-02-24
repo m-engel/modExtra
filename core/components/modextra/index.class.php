@@ -47,4 +47,27 @@ abstract class modExtraBaseManagerController extends modExtraManagerController {
         return array('modextra:default');
     }
     public function checkPermissions() { return true;}
+
+    public function activateRTE(){
+        $plugin=$this->modx->getObject('modPlugin',array('name'=>'TinyMCE'));
+        if(!$plugin) return false;
+
+        $tinyPath = $this->modx->getOption('core_path').'components/tinymce/';
+        $tinyProperties=$plugin->getProperties();
+        require_once $tinyPath.'tinymce.class.php';
+        $tiny = new TinyMCE($this->modx, $tinyProperties);
+
+        $tinyProperties['language'] = $this->modx->getOption('cultureKey',null,$this->modx->getOption('manager_language',null,'ru'));
+        $tinyProperties['cleanup'] = true;
+        $tinyProperties['width'] = '100%';
+        $tinyProperties['height'] = 200;
+
+        $tinyProperties['tiny.custom_buttons1'] = 'undo,redo,separator,pastetext,search,replace,separator,cleanup,removeformat,tablecontrols,separator,modxlink,unlink,anchor,separator,image,media,separator,code';
+        $tinyProperties['tiny.custom_buttons2'] = 'formatselect,separator,forecolor,backcolor,separator,bold,italic,underline,separator,strikethrough,sub,sup,separator,justifyleft,justifycenter,justifyright,justifyfull';
+        $tinyProperties['tiny.custom_buttons3'] = '';
+
+        $tiny->setProperties($tinyProperties);
+        $tiny->initialize();
+
+    }
 }

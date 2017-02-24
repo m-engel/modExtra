@@ -34,6 +34,7 @@ class modExtraHomeManagerController extends modExtraBaseManagerController {
         $this->addJavascript($this->modextra->config['jsUrl'].'mgr/widgets/items.grid.js');
         $this->addJavascript($this->modextra->config['jsUrl'].'mgr/widgets/home.panel.js');
         $this->addLastJavascript($this->modextra->config['jsUrl'].'mgr/sections/home.js');
+        $this->activateRTE();
     }
     public function getTemplateFile() { return $this->modextra->config['templatesPath'].'home.tpl'; }
 }
